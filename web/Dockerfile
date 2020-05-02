@@ -1,6 +1,7 @@
-FROM node:10
-COPY . /web
+FROM node:alpine
 WORKDIR /web
-
+COPY package.json ./
 RUN npm install
-CMD ["npm", "start"]
+
+COPY . ./
+RUN npm run build
