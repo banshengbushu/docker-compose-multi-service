@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3000"
+    networks:
+      - frontend
     stdin_open: true
   server:
     container_name: react-web-app-server
@@ -15,6 +17,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8080"
+    networks:
+      - backend
   nginx:
     container_name: react-web-app-nginx
     build:
@@ -22,3 +26,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "81:80"
+    networks:
+      - frontend
+      - backend
+networks:
+  frontend:
+  backend:
