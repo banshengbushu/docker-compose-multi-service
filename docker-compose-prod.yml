@@ -1,0 +1,60 @@
+version: '3'
+services:
+  web:
+    container_name: web
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+    networks:
+      - frontend
+    stdin_open: true
+  server:
+    container_name: server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    restart:
+      always
+    networks:
+      - backend
+      - database
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/books
+    depends_on:
+      - db
+  nginx:
+    container_name: nginx
+    build:
+      context:  .
+      dockerfile: Dockerfile
+    ports:
+      - "81:80"
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - server
+  db:
+    container_name: postgres
+    image: "postgres:10.4"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=books
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    networks:
+      - backend
+      - database
+    restart:
+      always
+networks:
+  frontend:
+  backend:
+  database:

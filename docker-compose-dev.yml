@@ -5,6 +5,8 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
     networks:
       - frontend
     stdin_open: true

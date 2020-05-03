@@ -1,8 +1,9 @@
 FROM node:alpine
 WORKDIR /web
 COPY package.json ./
-RUN yarn install
-
+RUN if [ "$NODE_ENV" = "development" ]; \
+	then yarn install;  \
+	else yarn install --only=production; \
+	fi
 COPY . ./
-RUN yarn build
 CMD ["npm", "start"]
