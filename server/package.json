@@ -8,6 +8,8 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "^4.16.1"
+    "express": "^4.16.1",
+    "pg": "^7.8.2",
+    "dotenv": "2.0.0"
   }
 }
