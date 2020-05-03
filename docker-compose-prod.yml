@@ -54,6 +54,18 @@ services:
       - database
     restart:
       always
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    restart:
+      always
+    networks:
+      - backend
+    volumes:
+      - ./redis:/data
+    command: ["redis-server", "--appendonly", "yes"]
 networks:
   frontend:
   backend:
